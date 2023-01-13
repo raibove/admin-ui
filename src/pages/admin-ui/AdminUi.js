@@ -3,42 +3,44 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 
-const columns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-    },
-    {
-      title: 'Role',
-      dataIndex: 'role',
-      key: 'role',
-    },
-    {
-      title: 'Actions',
-      key: 'actions',
-      render: (text, record) => (
-        <span>
-          <a href="#">Edit</a>
-          <a href="#">Delete</a>
-        </span>
-      ),
-    },
-  ];
 
 const AdminUi = ()=> {
     const [users, setUsers] = useState();
     const [loading, setLoading] = useState(true);
+    const [editingIndex, setEditingIndex] = useState(-1);
+
+    
+const columns = [
+  {
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name',
+  },
+  {
+    title: 'Email',
+    dataIndex: 'email',
+    key: 'email',
+  },
+  {
+    title: 'Role',
+    dataIndex: 'role',
+    key: 'role',
+  },
+  {
+    title: 'Actions',
+    key: 'actions',
+    render: (text, index) => (
+      <td>
+        <button onClick={()=>{setEditingIndex(index)}}>Edit</button>
+        <a href="#">Delete</a>
+      </td>
+    ),
+  },
+];
 
     const getUsers = async ()=>{
         try{
             const response = await axios.get("https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json");
-            console.log(response);
             setUsers(response.data);
             setLoading(false);
         }catch(err){
@@ -50,12 +52,18 @@ const AdminUi = ()=> {
         getUsers();
     },[])
 
+    function handleChange(event, key, index) {
+      const updatedData = [...users];
+      updatedData[index] = { ...updatedData[index], [key]: event.target.value };
+      setUsers(updatedData);
+    }
+  
     if(loading){
         return <div>Loading...</div>
     }
     return(
         <div>
-            <Table columns={columns} data={users}/>
+            <Table columns={columns} data={users} editingIndex={editingIndex} handleChange={handleChange}/>
         </div>
     )
 }
