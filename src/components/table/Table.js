@@ -1,4 +1,4 @@
-const Table = ({columns, data})=>{
+const Table = ({columns, data, editingIndex, handleChange})=>{
     return(
         <div>
             <table>
@@ -10,13 +10,20 @@ const Table = ({columns, data})=>{
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map(row => (
+                    {data.map((row, index) => (
                     <tr key={row.key}>
                         {columns.map(column => {
-                            if (column.dataIndex)
+                            if (index === editingIndex && column.dataIndex) {
+                                return <input
+                                    type="text"
+                                    value={row[column.dataIndex]}
+                                    onChange={event => handleChange(event, column.dataIndex, index)}
+                                />
+                            }
+                            else if (column.dataIndex)
                                 return <td key={column.key}>{row[column.dataIndex]}</td>
                             else if (column.render)
-                                return column.render(row)
+                                return column.render(row, index)
                         })}
                     </tr>
                     ))}
