@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import AdminUi from './pages/admin-ui/AdminUi';
 
