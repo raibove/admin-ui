@@ -8,35 +8,49 @@ const AdminUi = ()=> {
     const [users, setUsers] = useState();
     const [loading, setLoading] = useState(true);
     const [editingIndex, setEditingIndex] = useState(-1);
-
     
-const columns = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: 'Email',
-    dataIndex: 'email',
-    key: 'email',
-  },
-  {
-    title: 'Role',
-    dataIndex: 'role',
-    key: 'role',
-  },
-  {
-    title: 'Actions',
-    key: 'actions',
-    render: (text, index) => (
-      <td>
-        <button onClick={()=>{setEditingIndex(index)}}>Edit</button>
-        <a href="#">Delete</a>
-      </td>
-    ),
-  },
-];
+    const columns = [
+      {
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: 'Email',
+        dataIndex: 'email',
+        key: 'email',
+      },
+      {
+        title: 'Role',
+        dataIndex: 'role',
+        key: 'role',
+      },
+      {
+        title: 'Actions',
+        key: 'actions',
+        render: (text, index) => {
+          if(editingIndex===-1){
+            return <td>
+              <button onClick={()=>{setEditingIndex(index)}}>Edit</button>
+              <button>Delete</button>
+            </td>
+          }
+          else{
+            if(index===editingIndex){
+              return <td>
+              <button onClick={()=>{setEditingIndex(index)}}>Save</button>
+              <button >Cancel</button>
+              </td>
+            }else{
+              return <td>
+              <button disabled  onClick={()=>{setEditingIndex(index)}}>Edit</button>
+              <button disabled>Delete</button>
+            </td>
+            }
+          }
+        },
+      },
+    ];
 
     const getUsers = async ()=>{
         try{
@@ -61,6 +75,7 @@ const columns = [
     if(loading){
         return <div>Loading...</div>
     }
+
     return(
         <div>
             <Table columns={columns} data={users} editingIndex={editingIndex} handleChange={handleChange}/>
