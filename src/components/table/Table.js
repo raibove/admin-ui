@@ -1,25 +1,23 @@
-const Table = ({data})=>{
+const Table = ({columns, data})=>{
     return(
         <div>
-             <table>
+            <table>
                 <thead>
                     <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Actions</th>
+                    {columns.map(column => (
+                        <th key={column.key}>{column.title}</th>
+                    ))}
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map(user => (
-                    <tr key={user.id}>
-                        <td>{user.name}</td>
-                        <td>{user.email}</td>
-                        <td>{user.role}</td>
-                        <td>
-                        <button>Edit</button>
-                        <button>Delete</button>
-                        </td>
+                    {data.map(row => (
+                    <tr key={row.key}>
+                        {columns.map(column => {
+                            if (column.dataIndex)
+                                return <td key={column.key}>{row[column.dataIndex]}</td>
+                            else if (column.render)
+                                return column.render(row)
+                        })}
                     </tr>
                     ))}
                 </tbody>

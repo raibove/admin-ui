@@ -2,6 +2,35 @@ import Table from "../../components/table/Table";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+
+const columns = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+    },
+    {
+      title: 'Role',
+      dataIndex: 'role',
+      key: 'role',
+    },
+    {
+      title: 'Actions',
+      key: 'actions',
+      render: (text, record) => (
+        <span>
+          <a href="#">Edit</a>
+          <a href="#">Delete</a>
+        </span>
+      ),
+    },
+  ];
+
 const AdminUi = ()=> {
     const [users, setUsers] = useState();
     const [loading, setLoading] = useState(true);
@@ -26,7 +55,7 @@ const AdminUi = ()=> {
     }
     return(
         <div>
-            <Table data={users}/>
+            <Table columns={columns} data={users}/>
         </div>
     )
 }
