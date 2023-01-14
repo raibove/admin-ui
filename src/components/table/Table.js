@@ -14,11 +14,13 @@ const Table = ({columns, data, editingIndex, handleChange})=>{
                     <tr key={row.key}>
                         {columns.map(column => {
                             if (index === editingIndex && column.dataIndex) {
-                                return <input
-                                    type="text"
-                                    value={row[column.dataIndex]}
-                                    onChange={event => handleChange(event, column.dataIndex, index)}
-                                />
+                                return <td>
+                                    <input
+                                        type="text"
+                                        value={row[column.dataIndex]}
+                                        onChange={event => handleChange(event, column.dataIndex, index)}
+                                    />
+                                    </td>
                             }
                             else if (column.dataIndex)
                                 return <td key={column.key}>{row[column.dataIndex]}</td>
