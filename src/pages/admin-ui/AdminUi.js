@@ -8,7 +8,16 @@ const AdminUi = ()=> {
     const [users, setUsers] = useState();
     const [loading, setLoading] = useState(true);
     const [editingIndex, setEditingIndex] = useState(-1);
-    
+    const [currentUsers, setCurrentUsers] = useState();
+
+    const deleteUser = (index)=> {
+      setLoading(true)
+      let temp = users;
+      temp.splice(index,1)
+      setUsers([...temp]);
+      setLoading(false)
+    }
+
     const columns = [
       {
         title: 'Name',
@@ -31,15 +40,21 @@ const AdminUi = ()=> {
         render: (text, index) => {
           if(editingIndex===-1){
             return <td>
-              <button onClick={()=>{setEditingIndex(index)}}>Edit</button>
-              <button>Delete</button>
+              <button onClick={()=>{
+                  setCurrentUsers(users)
+                  setEditingIndex(index)
+                }}>Edit</button>
+              <button onClick={()=>deleteUser(index)}>Delete</button>
             </td>
           }
           else{
             if(index===editingIndex){
               return <td>
-              <button onClick={()=>{setEditingIndex(index)}}>Save</button>
-              <button >Cancel</button>
+              <button onClick={()=>{setEditingIndex(-1)}}>Save</button>
+              <button onClick={()=>{
+                setUsers(currentUsers)
+                setEditingIndex(-1)
+              }} >Cancel</button>
               </td>
             }else{
               return <td>
