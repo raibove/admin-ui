@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Pagination = ({data, itemsPerPage, onPageChange, currentPage})=>{
-    const [totalPages] = useState(Math.ceil(data.length / itemsPerPage));
+    const [totalPages, setTotalPages] = useState(Math.ceil(data.length / itemsPerPage));
     
+    useEffect(()=>{
+        setTotalPages(Math.ceil(data.length / itemsPerPage))
+    },[data])
     const handleClick = (direction) => {
         if (direction === 'prev' && currentPage > 1) {
             onPageChange(currentPage - 1);
