@@ -23,7 +23,7 @@ const Table = ({columns, data, editingIndex, handleChange})=>{
                                     </td>
                             }
                             else if (column.dataIndex)
-                                return <td key={column.key}>{row[column.dataIndex]}</td>
+                                return <td>{row[column.dataIndex]}</td>
                             else if (column.render)
                                 return column.render(row, index)
                         })}
