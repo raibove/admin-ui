@@ -11,8 +11,9 @@ const AdminUi = ()=> {
     const [editingIndex, setEditingIndex] = useState(-1);
     const [currentUser, setCurrentUser] = useState();
     const [pageData, setPageData] = useState()
-    const usersPerPage = 10;
     const [currentPage, setCurrentPage] = useState(1);
+    const [noData, setNoData] = useState(false);
+    const usersPerPage = 10;
 
     
     function handlePageChange(newPage) {
@@ -24,7 +25,14 @@ const AdminUi = ()=> {
       if(users!==undefined){
         const indexOfLastItem = currentPage * usersPerPage;
         const indexOfFirstItem = indexOfLastItem - usersPerPage;
-        console.log(currentPage)
+        let currentPageData = users.slice(indexOfFirstItem, indexOfLastItem);
+        if(currentPageData.length===0){
+          if(currentPage===1)
+            setNoData(true)
+          else{
+            setCurrentPage(currentPage-1)
+          }
+        }
         setPageData(users.slice(indexOfFirstItem, indexOfLastItem));
         setLoading(false)
       }
@@ -118,6 +126,9 @@ const AdminUi = ()=> {
         return <div>Loading...</div>
     }
 
+    if(noData){
+      return <div>No Data To Display...</div>
+    }
     return(
         <div>
             <Table columns={columns} data={pageData} editingIndex={editingIndex} handleChange={handleChange}/>
