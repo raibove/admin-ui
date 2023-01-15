@@ -20,6 +20,13 @@ const AdminUi = ()=> {
 
     const columns = [
       {
+        title:'[]',
+        key:'checkbox',
+        render: ()=> {
+          return <input type="checkbox" />
+        }
+      },
+      {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
