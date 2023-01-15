@@ -28,13 +28,13 @@ const AdminUi = ()=> {
         let currentPageData = users.slice(indexOfFirstItem, indexOfLastItem);
         if(currentPageData.length===0){
           if(currentPage===1)
-            setNoData(true)
+            setNoData(true);
           else{
-            setCurrentPage(currentPage-1)
+            setCurrentPage(currentPage-1);
           }
         }
         setPageData(users.slice(indexOfFirstItem, indexOfLastItem));
-        setLoading(false)
+        setLoading(false);
       }
     }, [users, currentPage]);
 
@@ -133,6 +133,7 @@ const AdminUi = ()=> {
         <div>
             <Table columns={columns} data={pageData} editingIndex={editingIndex} handleChange={handleChange}/>
             <div>
+              <button>Delete Selected</button>
               <Pagination data={users} itemsPerPage={usersPerPage} currentPage={currentPage} onPageChange={handlePageChange}/>
             </div>
         </div>
