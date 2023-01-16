@@ -53,7 +53,15 @@ const AdminUi = ()=> {
         setSelectedPage(selectedPage.filter(page=> page!==currentPage))
         setDeleteSelected(deleteSelected.filter(i => i !== item));
       } else {
-        setDeleteSelected([...deleteSelected, item]);
+
+        let tempDeleteSelected = deleteSelected
+        tempDeleteSelected.push(item)
+        setDeleteSelected([...tempDeleteSelected]);
+
+        if(currentPageData.every(element => tempDeleteSelected.includes(element)))
+        {
+          setSelectedPage([...selectedPage, currentPage])
+        }
       }
     }
 
