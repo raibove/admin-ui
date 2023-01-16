@@ -34,7 +34,8 @@ const AdminUi = ()=> {
             setCurrentPage(currentPage-1);
           }
         }
-        setCurrentPageData(users.slice(indexOfFirstItem, indexOfLastItem));
+   
+        setCurrentPageData( users.slice(indexOfFirstItem, indexOfLastItem));
         setLoading(false);
       }
     }, [users, currentPage]);
@@ -44,6 +45,7 @@ const AdminUi = ()=> {
       let temp = users;
       temp.splice(index,1)
       setUsers([...temp]);
+      setSelectedPage(selectedPage.filter(item=>item!=currentPage))
       setLoading(false)
     }
 
