@@ -13,13 +13,13 @@ const AdminUi = ()=> {
     const [pageData, setPageData] = useState()
     const [currentPage, setCurrentPage] = useState(1);
     const [noData, setNoData] = useState(false);
+    const [deleteSelected, setDeleteSelected] = useState([]);
     const usersPerPage = 10;
 
     
     function handlePageChange(newPage) {
       setCurrentPage(newPage)
     }
-
     
     useEffect(() => {
       if(users!==undefined){
@@ -46,12 +46,21 @@ const AdminUi = ()=> {
       setLoading(false)
     }
 
+    
+   const handleCheckboxChange = (event, item) => {
+      if (deleteSelected.includes(item)) {
+        setDeleteSelected(deleteSelected.filter(i => i !== item));
+      } else {
+        setDeleteSelected([...deleteSelected, item]);
+      }
+    }
+
     const columns = [
       {
         title:'[]',
         key:'checkbox',
-        render: ()=> {
-          return <input type="checkbox" />
+        render: (text)=> {
+          return <input type="checkbox" checked={deleteSelected.includes(text)} onChange={(event)=>handleCheckboxChange(event, text)}/>
         }
       },
       {
@@ -122,6 +131,13 @@ const AdminUi = ()=> {
       setUsers(updatedData);
     }
   
+    function handleDeleteSelected(){
+      let tempUsers = users
+      tempUsers = tempUsers.filter((element, index) => !deleteSelected.includes(element));
+      setUsers([...tempUsers])
+      setDeleteSelected([])
+    }
+
     if(loading){
         return <div>Loading...</div>
     }
@@ -129,11 +145,12 @@ const AdminUi = ()=> {
     if(noData){
       return <div>No Data To Display...</div>
     }
+
     return(
         <div>
             <Table columns={columns} data={pageData} editingIndex={editingIndex} handleChange={handleChange}/>
             <div>
-              <button>Delete Selected</button>
+              <button onClick={handleDeleteSelected}>Delete Selected</button>
               <Pagination data={users} itemsPerPage={usersPerPage} currentPage={currentPage} onPageChange={handlePageChange}/>
             </div>
         </div>
