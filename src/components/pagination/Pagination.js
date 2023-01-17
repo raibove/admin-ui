@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./Pagination.css";
 
 const Pagination = ({data, itemsPerPage, onPageChange, currentPage})=>{
     const [totalPages, setTotalPages] = useState(Math.ceil(data.length / itemsPerPage));
@@ -19,16 +20,17 @@ const Pagination = ({data, itemsPerPage, onPageChange, currentPage})=>{
       };
     
     return(
-        <div>
+        <div className="pagination-container">
             <button onClick={() => handleClick('prev')} disabled={currentPage === 1}>
                 Prev
             </button>
+            <div className="page-number-container">
             {
                 Array.from(Array(totalPages).keys()).map(page => (
-                <button key={page} onClick={() => handlePageClick(page + 1)}>{page + 1}</button>
+                <button key={page} onClick={() => handlePageClick(page + 1)} className={currentPage===page+1? `page-number selected-page-number`: "page-number"}>{page + 1}</button>
                 ))
             }
-            {/* <span>{`Page ${currentPage} of ${totalPages}`}</span> */}
+            </div>
             <button onClick={() => handleClick('next')} disabled={currentPage === totalPages}>
                 Next
             </button>

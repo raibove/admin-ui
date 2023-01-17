@@ -2,8 +2,7 @@ import Table from "../../components/table/Table";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Pagination from "../../components/pagination/Pagination";
-
-
+import "./AdminUi.css"
 
 const AdminUi = ()=> {
     const [users, setUsers] = useState();
@@ -211,8 +210,8 @@ const AdminUi = ()=> {
         <div>
           <input placeholder="search by name, email or role" value={searchQuery} onChange={handleSearch} />
             <Table columns={columns} data={currentPageData} editingIndex={editingIndex} handleChange={handleChange}/>
-            <div>
-              <button onClick={handleDeleteSelected}>Delete Selected</button>
+            <div className="table-footer">
+              <button onClick={handleDeleteSelected} className="delete-selected">Delete Selected</button>
               <Pagination data={paginationData} itemsPerPage={usersPerPage} currentPage={currentPage} onPageChange={handlePageChange}/>
             </div>
         </div>

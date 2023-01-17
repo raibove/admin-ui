@@ -1,0 +1,14 @@
+.delete-selected{
+    background-color: tomato;
+    cursor: pointer;
+    color: white;
+    border-radius: 15px;
+    font-size: 14px;
+    padding: 8px 10px;
+    border: none;
+}
+
+.table-footer{
+    display: flex;
+    margin: 20px 40px;
+}
