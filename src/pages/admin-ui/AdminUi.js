@@ -26,7 +26,6 @@ const AdminUi = ()=> {
     }
     
     useEffect(() => {
-      console.log(filterData)
       if(filterData!==null){
         setPaginationData(filterData)
         const indexOfLastItem = currentPage * usersPerPage;
@@ -61,14 +60,13 @@ const AdminUi = ()=> {
       }
     }, [users, currentPage, filterData]);
 
-    const deleteUser = (index)=> {
+    const deleteUser = (id)=> {
       setLoading(true)
-      let temp = users;
-      temp.splice(index,1)
-      setUsers([...temp]);
-      
-      
-
+     
+      setUsers(users.filter(item=> item.id !== id));
+      if(filterData!== null){
+        setFilterData(filterData.filter(item=> item.id !== id));
+      }
       setSelectedPage(selectedPage.filter(item=>item!==currentPage))
       setLoading(false)
     }
@@ -136,7 +134,7 @@ const AdminUi = ()=> {
                   setCurrentUser(users)
                   setEditingIndex(index)
                 }}>Edit</button>
-              <button onClick={()=>deleteUser(index)}>Delete</button>
+              <button onClick={()=>deleteUser(text.id)}>Delete</button>
             </td>
           }
           else{
