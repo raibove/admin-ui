@@ -10,9 +10,8 @@ const AdminUi = ()=> {
     const [loading, setLoading] = useState(true);
     const [editingIndex, setEditingIndex] = useState(-1);
     const [currentUser, setCurrentUser] = useState();
-    const [currentPageData, setCurrentPageData] = useState()
+    const [currentPageData, setCurrentPageData] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
-    const [selectedPage, setSelectedPage] = useState([])
     const [noData, setNoData] = useState(false);
     const [deleteSelected, setDeleteSelected] = useState([]);
     const [filterData, setFilterData] = useState(null);
@@ -39,7 +38,7 @@ const AdminUi = ()=> {
           }
         }
    
-        setCurrentPageData( filterData.slice(indexOfFirstItem, indexOfLastItem));
+        setCurrentPageData(tempPageData);
         setLoading(false);
       }
       else if(users!==undefined){
@@ -55,7 +54,8 @@ const AdminUi = ()=> {
           }
         }
    
-        setCurrentPageData( users.slice(indexOfFirstItem, indexOfLastItem));
+        setCurrentPageData(tempPageData);
+
         setLoading(false);
       }
     }, [users, currentPage, filterData]);
@@ -67,43 +67,33 @@ const AdminUi = ()=> {
       if(filterData!== null){
         setFilterData(filterData.filter(item=> item.id !== id));
       }
-      setSelectedPage(selectedPage.filter(item=>item!==currentPage))
+
       setLoading(false)
     }
 
     
    const handleCheckboxChange = (event, item) => {
       if (deleteSelected.includes(item)) {
-        setSelectedPage(selectedPage.filter(page=> page!==currentPage))
         setDeleteSelected(deleteSelected.filter(i => i !== item));
       } else {
 
         let tempDeleteSelected = deleteSelected
         tempDeleteSelected.push(item)
         setDeleteSelected([...tempDeleteSelected]);
-
-        if(currentPageData.every(element => tempDeleteSelected.includes(element)))
-        {
-          setSelectedPage([...selectedPage, currentPage])
-        }
       }
     }
 
-    const handleSelectAll = ()=>{
-      // add elements from current page that don't exist in delete selected
-      if(selectedPage.includes(currentPage)){
-        setSelectedPage(selectedPage.filter(page=> page!==currentPage))
-        setDeleteSelected(deleteSelected.filter(item => !currentPageData.includes(item)));
-      }else{
-        setSelectedPage([...selectedPage, currentPage])
+    const handleSelectAll = (e)=>{
+      if(e.target.checked){
         setDeleteSelected([...deleteSelected, ...currentPageData])
+      }else{
+        setDeleteSelected(deleteSelected.filter(item => !currentPageData.includes(item)));
       }
-      // on unchecking the checkbox, elements from that page should be deleted
     }
 
     const columns = [
       {
-        title:<input type="checkbox" checked={selectedPage.includes(currentPage)} onChange={handleSelectAll}/>,
+        title:<input type="checkbox" checked={currentPageData.every(element => deleteSelected.includes(element))} onChange={handleSelectAll}/>,
         key:'checkbox',
         render: (text)=> {
           return <input type="checkbox" checked={deleteSelected.includes(text)} onChange={(event)=>handleCheckboxChange(event, text)}/>
@@ -162,7 +152,6 @@ const AdminUi = ()=> {
             const response = await axios.get("https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json");
             setUsers(response.data);
             setPaginationData(response.data);
-            // setLoading(false);
         }catch(err){
             console.log(err);
         }
@@ -190,7 +179,6 @@ const AdminUi = ()=> {
       }
 
       setDeleteSelected([])
-      setSelectedPage(selectedPage.filter(item=>item!==currentPage))
 
     }
 
