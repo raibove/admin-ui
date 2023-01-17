@@ -188,7 +188,10 @@ const AdminUi = ()=> {
         tempFilterData = tempFilterData.filter((element, index)=> !deleteSelected.includes(element));
         setFilterData([...tempFilterData])
       }
+
       setDeleteSelected([])
+      setSelectedPage(selectedPage.filter(item=>item!==currentPage))
+
     }
 
     const handleSearch = (e)=>{
