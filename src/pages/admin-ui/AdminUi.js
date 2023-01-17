@@ -182,6 +182,12 @@ const AdminUi = ()=> {
       let tempUsers = users
       tempUsers = tempUsers.filter((element, index) => !deleteSelected.includes(element));
       setUsers([...tempUsers])
+
+      if(filterData!==null){
+        let tempFilterData = filterData
+        tempFilterData = tempFilterData.filter((element, index)=> !deleteSelected.includes(element));
+        setFilterData([...tempFilterData])
+      }
       setDeleteSelected([])
     }
 
