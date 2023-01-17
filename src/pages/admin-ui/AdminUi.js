@@ -15,6 +15,9 @@ const AdminUi = ()=> {
     const [selectedPage, setSelectedPage] = useState([])
     const [noData, setNoData] = useState(false);
     const [deleteSelected, setDeleteSelected] = useState([]);
+    const [filterData, setFilterData] = useState(null);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [paginationData, setPaginationData] = useState();
     const usersPerPage = 10;
 
     
@@ -23,7 +26,25 @@ const AdminUi = ()=> {
     }
     
     useEffect(() => {
-      if(users!==undefined){
+      console.log(filterData)
+      if(filterData!==null){
+        setPaginationData(filterData)
+        const indexOfLastItem = currentPage * usersPerPage;
+        const indexOfFirstItem = indexOfLastItem - usersPerPage;
+        let tempPageData = filterData.slice(indexOfFirstItem, indexOfLastItem);
+        if(tempPageData.length===0){
+          if(currentPage===1)
+            setNoData(true);
+          else{
+            setCurrentPage(currentPage-1);
+          }
+        }
+   
+        setCurrentPageData( filterData.slice(indexOfFirstItem, indexOfLastItem));
+        setLoading(false);
+      }
+      else if(users!==undefined){
+        setPaginationData(users)
         const indexOfLastItem = currentPage * usersPerPage;
         const indexOfFirstItem = indexOfLastItem - usersPerPage;
         let tempPageData = users.slice(indexOfFirstItem, indexOfLastItem);
@@ -38,14 +59,17 @@ const AdminUi = ()=> {
         setCurrentPageData( users.slice(indexOfFirstItem, indexOfLastItem));
         setLoading(false);
       }
-    }, [users, currentPage]);
+    }, [users, currentPage, filterData]);
 
     const deleteUser = (index)=> {
       setLoading(true)
       let temp = users;
       temp.splice(index,1)
       setUsers([...temp]);
-      setSelectedPage(selectedPage.filter(item=>item!=currentPage))
+      
+      
+
+      setSelectedPage(selectedPage.filter(item=>item!==currentPage))
       setLoading(false)
     }
 
@@ -139,6 +163,7 @@ const AdminUi = ()=> {
         try{
             const response = await axios.get("https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json");
             setUsers(response.data);
+            setPaginationData(response.data);
             // setLoading(false);
         }catch(err){
             console.log(err);
@@ -162,6 +187,23 @@ const AdminUi = ()=> {
       setDeleteSelected([])
     }
 
+    const handleSearch = (e)=>{
+      if(e.target.value.length===0)
+        setFilterData(null)
+      else{
+        setFilterData(
+          users.filter(item => {
+            return (
+              item.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
+              item.email.toLowerCase().includes(e.target.value.toLowerCase()) ||
+              item.role.toLowerCase().includes(e.target.value.toLowerCase())
+            );
+          })
+        );
+      }
+      setSearchQuery(e.target.value)
+    }
+
     if(loading){
         return <div>Loading...</div>
     }
@@ -172,10 +214,11 @@ const AdminUi = ()=> {
 
     return(
         <div>
+          <input placeholder="search by name, email or role" value={searchQuery} onChange={handleSearch} />
             <Table columns={columns} data={currentPageData} editingIndex={editingIndex} handleChange={handleChange}/>
             <div>
               <button onClick={handleDeleteSelected}>Delete Selected</button>
-              <Pagination data={users} itemsPerPage={usersPerPage} currentPage={currentPage} onPageChange={handlePageChange}/>
+              <Pagination data={paginationData} itemsPerPage={usersPerPage} currentPage={currentPage} onPageChange={handlePageChange}/>
             </div>
         </div>
     )
