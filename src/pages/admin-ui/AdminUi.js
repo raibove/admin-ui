@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Pagination from "../../components/pagination/Pagination";
 import "./AdminUi.css"
+import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 
 const AdminUi = ()=> {
     const [users, setUsers] = useState();
@@ -119,11 +120,16 @@ const AdminUi = ()=> {
         render: (text, index) => {
           if(editingIndex===-1){
             return <td>
-              <button onClick={()=>{
-                  setCurrentUser(users)
-                  setEditingIndex(index)
-                }}>Edit</button>
-              <button onClick={()=>deleteUser(text.id)}>Delete</button>
+                <AiFillEdit
+                  className="user-edit" 
+                  onClick={()=>{
+                    setCurrentUser(users)
+                    setEditingIndex(index)}
+                  } 
+                />
+                &nbsp;
+                &nbsp;
+              <AiFillDelete className="user-delete" onClick={()=>deleteUser(text.id)} />
             </td>
           }
           else{

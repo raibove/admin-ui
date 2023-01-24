@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./Pagination.css";
+import { GrFormNext } from "react-icons/gr";
 
 const Pagination = ({data, itemsPerPage, onPageChange, currentPage})=>{
     const [totalPages, setTotalPages] = useState(Math.ceil(data.length / itemsPerPage));
@@ -31,9 +32,8 @@ const Pagination = ({data, itemsPerPage, onPageChange, currentPage})=>{
                 ))
             }
             </div>
-            <button onClick={() => handleClick('next')} disabled={currentPage === totalPages}>
-                Next
-            </button>
+            <GrFormNext onClick={() => handleClick('next')} className="next-page" style={{pointer: currentPage === totalPages && 'none'}} />
+               
         </div>
     )
 }
