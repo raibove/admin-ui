@@ -202,18 +202,20 @@ const AdminUi = ()=> {
         return <div>Loading...</div>
     }
 
-    if(noData){
-      return <div>No Data To Display...</div>
-    }
+    // if(noData){
+    //   return <div>No Data To Display...</div>
+    // }
 
     return(
-        <div>
-          <input placeholder="search by name, email or role" value={searchQuery} onChange={handleSearch} />
+        <div className="admin-ui">
+            <input placeholder="search by name, email or role" value={searchQuery} onChange={handleSearch} className="search-input"/>
             <Table columns={columns} data={currentPageData} editingIndex={editingIndex} handleChange={handleChange}/>
-            <div className="table-footer">
-              <button onClick={handleDeleteSelected} className="delete-selected">Delete Selected</button>
-              <Pagination data={paginationData} itemsPerPage={usersPerPage} currentPage={currentPage} onPageChange={handlePageChange}/>
-            </div>
+            {!noData &&
+              <div className="table-footer">
+                <button onClick={handleDeleteSelected} className="delete-selected">Delete Selected</button>
+                <Pagination data={paginationData} itemsPerPage={usersPerPage} currentPage={currentPage} onPageChange={handlePageChange}/>
+              </div>
+            }
         </div>
     )
 }

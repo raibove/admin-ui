@@ -1,7 +1,9 @@
+import "./Table.css"
+
 const Table = ({columns, data, editingIndex, handleChange})=>{
     return(
         <div>
-            <table>
+            <table className="table">
                 <thead>
                     <tr>
                     {columns.map(column => (
@@ -10,8 +12,11 @@ const Table = ({columns, data, editingIndex, handleChange})=>{
                     </tr>
                 </thead>
                 <tbody>
+                    {data.length===0 &&
+                        <div>No data to display</div>
+                    }
                     {data.map((row, index) => (
-                    <tr key={row.key}>
+                    <tr key={row.key} className="table-row">
                         {columns.map(column => {
                             if (index === editingIndex && column.dataIndex) {
                                 return <td>
@@ -30,7 +35,7 @@ const Table = ({columns, data, editingIndex, handleChange})=>{
                     </tr>
                     ))}
                 </tbody>
-                </table>
+            </table>
         </div>
     )
 }

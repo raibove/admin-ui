@@ -12,3 +12,14 @@
     display: flex;
     margin: 20px 40px;
 }
+
+.admin-ui{
+    padding: 30px 10px;
+}
+
+.search-input{
+    font-size: 16px;
+    padding: 5px;
+    width: 98%;
+
+}
