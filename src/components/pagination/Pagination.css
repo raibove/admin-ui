@@ -28,3 +28,12 @@
     cursor: pointer;
     font-size: 24px;
 }
+
+.hide-next-page  *{
+    stroke: gray;
+}
+
+.hide-next-page{
+    cursor:default;
+    font-size: 24px;
+}
