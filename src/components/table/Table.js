@@ -13,7 +13,7 @@ const Table = ({columns, data, editingIndex, handleChange, deleteSelected})=>{
                 </thead>
                 <tbody>
                     {data.length===0 &&
-                        <div>No data to display</div>
+                        <div className="no-data">No data to display</div>
                     }
                     {data.map((row, index) => (
                     <tr key={row.key} className={deleteSelected.includes(row)?"table-row selected-table-row": "table-row"}>
