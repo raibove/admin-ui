@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./Pagination.css";
-import { GrFormNext, GrFormPrevious } from "react-icons/gr";
+import { GrFormNext, GrFormPrevious, GrChapterNext, GrChapterPrevious } from "react-icons/gr";
 
 const Pagination = ({data, itemsPerPage, onPageChange, currentPage})=>{
     const [totalPages, setTotalPages] = useState(Math.ceil(data.length / itemsPerPage));
@@ -20,9 +20,17 @@ const Pagination = ({data, itemsPerPage, onPageChange, currentPage})=>{
         onPageChange(page);
       };
     
+      const goToLastPage = ()=>{
+        onPageChange(totalPages);
+      }
+
+      const goToFirstPage = ()=>{
+        onPageChange(1);
+      }
     return(
         <div className="pagination-container">
-            <GrFormPrevious className={currentPage==1? "hide-next-page" :"next-page"} />
+            <GrChapterPrevious className={currentPage==1? "hide-next-page" :"next-page"} onClick={goToFirstPage}/>
+            <GrFormPrevious className={currentPage==1? "hide-next-page" :"next-page"} onClick={()=> handleClick('prev')}/>
             <div className="page-number-container">
             {
                 Array.from(Array(totalPages).keys()).map(page => (
@@ -30,7 +38,8 @@ const Pagination = ({data, itemsPerPage, onPageChange, currentPage})=>{
                 ))
             }
             </div>
-            <GrFormNext onClick={() => handleClick('next')} className={currentPage==totalPages? "hide-next-page" :"next-page"}/> 
+            <GrFormNext onClick={() => handleClick('next')} className={currentPage==totalPages? "hide-next-page" : "next-page"}/> 
+            <GrChapterNext onClick={goToLastPage} className={currentPage==totalPages? "hide-next-page" : "next-page"}/>
         </div>
     )
 }

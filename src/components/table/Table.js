@@ -1,6 +1,6 @@
 import "./Table.css"
 
-const Table = ({columns, data, editingIndex, handleChange})=>{
+const Table = ({columns, data, editingIndex, handleChange, deleteSelected})=>{
     return(
         <div>
             <table className="table">
@@ -16,7 +16,7 @@ const Table = ({columns, data, editingIndex, handleChange})=>{
                         <div>No data to display</div>
                     }
                     {data.map((row, index) => (
-                    <tr key={row.key} className="table-row">
+                    <tr key={row.key} className={deleteSelected.includes(row)?"table-row selected-table-row": "table-row"}>
                         {columns.map(column => {
                             if (index === editingIndex && column.dataIndex) {
                                 return <td>

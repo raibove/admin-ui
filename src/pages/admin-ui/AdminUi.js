@@ -215,7 +215,7 @@ const AdminUi = ()=> {
     return(
         <div className="admin-ui">
             <input placeholder="search by name, email or role" value={searchQuery} onChange={handleSearch} className="search-input"/>
-            <Table columns={columns} data={currentPageData} editingIndex={editingIndex} handleChange={handleChange}/>
+            <Table columns={columns} data={currentPageData} editingIndex={editingIndex} handleChange={handleChange} deleteSelected={deleteSelected}/>
             {!noData &&
               <div className="table-footer">
                 <button onClick={handleDeleteSelected} className="delete-selected">Delete Selected</button>
