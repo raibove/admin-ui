@@ -3,11 +3,9 @@ import AdminUi from './pages/admin-ui/AdminUi';
 
 function App() {
   return (
-    <div className="App">
-        <AdminUi 
-          
-        />
-    </div>
+      <div className="App">
+        <AdminUi />
+      </div>
   );
 }
 

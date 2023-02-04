@@ -208,10 +208,6 @@ const AdminUi = ()=> {
         return <div>Loading...</div>
     }
 
-    // if(noData){
-    //   return <div>No Data To Display...</div>
-    // }
-
     return(
         <div className="admin-ui">
             <input placeholder="search by name, email or role" value={searchQuery} onChange={handleSearch} className="search-input"/>
